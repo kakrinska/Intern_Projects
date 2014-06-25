@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<style type='text/css'>
+    table {
+        border: 1px solid black;
+    }
+    td.buttons {
+        border: 1px solid black;
+        width: 90px;
+        height: 90px;
+        text-align: center;
+        vertical-align: middle;
+        font-size: 50px;
+        background: linear-gradient(white, grey);
+        /* Standard syntax */
+    }
+    td.buttons:hover {
+        background: linear-gradient(grey, white);
+        /* Standard syntax */
+        ;
+    }
+    td.equal {
+        border: 1px solid black;
+        width: 90px;
+        height: 90px;
+        text-align: center;
+        vertical-align: middle;
+        font-size: 50px;
+        background: linear-gradient(white, grey);
+        /* Standard syntax */
+    }
+    td.equal:hover {
+        background: linear-gradient(grey, white);
+        /* Standard syntax */
+        ;
+    }
+    td.clear {
+        border: 1px solid black;
+        width: 90px;
+        height: 90px;
+        text-align: center;
+        vertical-align: middle;
+        font-size: 50px;
+        background: linear-gradient(white, grey);
+        /* Standard syntax */
+    }
+    td.clear:hover {
+        background: linear-gradient(grey, white);
+        /* Standard syntax */
+        ;
+    }
+    #display {
+        background-color: white;
+        height: 90px;
+        border: 3px solid blue;
+        text-align: right;
+        vertical-align: middle;
+        font-size: 50px;
+    }
+    td.signs {
+        border: 1px solid black;
+        width: 90px;
+        height: 90px;
+        text-align: center;
+        vertical-align: middle;
+        font-size: 50px;
+        background: linear-gradient(white, grey);
+        /* Standard syntax */
+    }
+    td.signs:hover {
+        background: linear-gradient(grey, white);
+        /* Standard syntax */
+        ;
+    }
+</style>
+
+
+<script type='text/javascript'>
+    String.prototype.replaceAt = function (index, character) {
+        return this.substr(0, index) + character + this.substr(index + character.length);
+    }
+
+    window.onload = function () {
+        var table = document.getElementById('tableID'),
+            cells = table.getElementsByClassName('buttons'),
+            signs = table.getElementsByClassName('signs');
+        var display = document.getElementById('display');
+
+        for (var i = 0, len = cells.length; i < len; i++) {
+            cells[i].onclick = function () {
+                if ((display.innerHTML.length == 0) && (this.innerHTML == '0')) {} else {
+                    display.innerHTML += this.innerHTML;
+                }
+            }
+        }
+
+        for (var i = 0, len = signs.length; i < len; i++) {
+            signs[i].onclick = function () {
+                var length = display.innerHTML.length;
+                if (length == 0) {
+
+                } else if ((display.innerHTML[length - 1] == '+') || (display.innerHTML[length - 1] == '-') || (display.innerHTML[length - 1] == '*') || (display.innerHTML[length - 1] == '/')) {
+                    display.innerHTML = display.innerHTML.replaceAt(length - 1, this.innerHTML);
+                } else {
+                    display.innerHTML += this.innerHTML;
+                }
+
+            }
+        }
+    };
+
+    function result() {
+        var display = document.getElementById('display');
+        var expr = display.innerHTML;
+        display.innerHTML = eval(expr);
+    }
+
+    function clearRes() {
+        var display = document.getElementById('display');
+        display.innerHTML = "";
+    }
+</script>
+
+
+<body>
+    <table id="tableID">
+        <tr>
+            <td id="display" colspan="4" style="background-color:white">
+        </tr>
+        <tr>
+            <td class="buttons">1</td>
+            <td class="buttons">2</td>
+            <td class="buttons">3</td>
+            <td class="signs">+</td>
+        </tr>
+        <tr>
+            <td class="buttons">4</td>
+            <td class="buttons">5</td>
+            <td class="buttons">6</td>
+            <td class="signs">-</td>
+        </tr>
+        <tr>
+            <td class="buttons">7</td>
+            <td class="buttons">8</td>
+            <td class="buttons">9</td>
+            <td class="signs">*</td>
+        </tr>
+        <tr>
+            <td class="clear" onclick="clearRes()">C</td>
+            <td class="buttons">0</td>
+            <td class="equal" onclick="result()">=</td>
+            <td class="signs">/</td>
+        </tr>
+    </table>
+</body>
+
+</html>
