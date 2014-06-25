@@ -1,0 +1,165 @@
+<html>
+
+<head>
+
+   <style type="text/css">
+     div { height:20px; width:20px; border: 2px solid; float:left; background-color: green }
+     #main { overflow: hidden; }
+	 .selected{background-color: red}
+	 .apple{background-color: yellow}
+	 .minusapple{background-color: blue}
+	 }
+   </style>
+    
+</head>
+
+
+<body>
+
+
+    <script>
+		
+		var size = 5;
+		var speed = 200;
+
+		var queue = [];
+		
+		var matrix = new Array(size);	
+		var count = 0;
+		var row = 0;
+		var col = 0;
+		var direction = 3;	
+		var mainDiv = document.createElement('div');
+			
+			//queue.push(9);
+			//queue.push(6);
+			//queue.push(3);
+			queue.push(1);
+		
+		mainDiv.id = 'main';
+		mainDiv.style.height = (size * 20) + (size * 4);
+		mainDiv.style.width = (size * 20) + (size * 4);
+		
+		document.getElementsByTagName('body')[0].appendChild(mainDiv);
+		
+		for(var i = 0; i < size; i++) {
+			matrix[i] = new Array(size);
+			
+			for(var z = 0; z < size; z++) {
+				matrix[i][z] = count++;
+			}
+		}
+		
+		for(var y = 0; y < size; y++) {
+			for(var x = 0; x < size; x++){
+				var div = document.createElement('div');
+				div.id = matrix[y][x];
+				mainDiv.appendChild(div);
+			}
+	    }
+		
+		document.getElementById(2).className = "apple";
+		document.getElementById(3).className = "minusapple";
+		
+		document.onkeydown = function() {
+			switch (window.event.keyCode) {
+				case 37:
+					direction = 4;
+					break;
+				case 38:
+					direction = 1;
+					break;
+				case 39:
+					direction = 2;
+					break;
+				case 40:
+					direction = 3;
+					break;
+				case 13:
+					var cusid_ele = document.getElementsByClassName('selected');
+					if(cusid_ele[0].style.backgroundColor === "red"){
+						alert("You win!!!!");
+					}				
+					break;
+			}
+		}
+		
+		function run() {
+		
+			
+	   
+			moveDiv();
+			
+			window.setTimeout(function (){run()	},speed);
+		}   
+		
+		function moveDiv() {
+		
+			
+			
+			switch(direction) {
+				case 1:
+					if((row - 1) < 0) {
+						row = size - 1;
+					}
+					else {
+						row--;
+					}
+					break;
+				case 2:
+					if((col + 1) >= size) {
+						col = 0;
+					}
+					else {
+						col++;
+					}
+					break;
+				case 3:
+					if((row + 1) >= size) {
+						row = 0;
+					}
+					else {
+						row++;
+					}
+					break;
+				case 4:
+					if((col - 1) < 0) {
+						col = size - 1;
+					}
+					else {
+						col--;
+					}
+					break;
+			}
+			
+			
+		if(document.getElementById(matrix[row][col]).className != "apple"){
+				if(document.getElementById(matrix[row][col]).className == "minusapple"){
+				 document.getElementById(queue.shift()).className = "not-selected";
+				}
+				document.getElementById(queue.shift()).className = "not-selected";
+			   }
+			   else{
+				
+				document.getElementById(Math.floor((Math.random()*(size*size))+1)).className = "apple";
+			   }
+			 
+			/*if(document.getElementById(matrix[row][col]).className != "apple"){
+				document.getElementById(queue.shift()).className = "not-selected";
+			}
+			else{
+				
+				document.getElementById(Math.floor((Math.random()*(size*size))+1)).className = "apple";
+			}*/
+			
+			queue.push(matrix[row][col]);
+			document.getElementById(matrix[row][col]).className = "selected";
+		}
+		
+		run();
+
+    </script>
+
+
+</body>
+</html>
